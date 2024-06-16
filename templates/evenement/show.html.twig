@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evenement{% endblock %}
+
+{% block body %}
+    <h1>Evenement</h1>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ evenement.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ evenement.Titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ evenement.Description }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ evenement.Date ? evenement.Date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Nb_participants</th>
+                <td>{{ evenement.nbParticipants - evenement.getNombreInscrits() }}</td>
+            </tr>
+            <tr>
+                <th>Is_public</th>
+                <td>{{ evenement.isPublic ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if evenement.getNombreInscrits() < evenement.nbParticipants %}
+        {% if app.user not in evenement.participants%}
+            <a href="{{ path('app_evenement_inscription',{id:evenement.id}) }}">Inscription</a>
+        {% endif %}
+    {% else %}
+        <h2>Nombre de participants max atteint</h2>
+
+    {% endif %}
+
+    {% if app.user  in evenement.participants%}
+        <a href="{{ path('app_evenement_deinscription',{id:evenement.id}) }}">Désincription</a>
+    {% endif %}
+
+    <a href="{{ path('app_evenement_index') }}">back to list</a>
+
+
+    {% if app.user!=null %}
+        {% if (app.user.id == evenement.user.id) %}
+            <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}">edit</a>
+            {{ include('evenement/_delete_form.html.twig') }}
+
+        {% endif %}
+    {% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+{#    <a href="{{ path("app_admin") }}">Acceuil</a>#}
+
+
+    <div class="example-wrapper">
+        <h1>Nom: {{ app.user.nom }}</h1>
+        <h1>Prenom: {{ app.user.prenom }}</h1>
+        <h1>Email: {{ app.user.email }}</h1>
+
+    </div>
+    <a href="{{ path("app_modifprofile", {id:app.user.id}) }}">Modifier Profile</a>
+    <a href="{{ path("app_modifmdp", {id:app.user.id}) }}">Modifier Mdp</a>
+
+{% endblock %}

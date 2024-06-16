@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evenement index{% endblock %}
+
+{% block body %}
+    <h1>Evenement index</h1>
+    {{ form_start(form) }}
+    {{ form_row(form.titre) }}
+    {{ form_row(form.date) }}
+    {{ form_end(form) }}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Nb_participants</th>
+                <th>Is_public</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evenement in evenements %}
+            <tr>
+                <td>{{ evenement.id }}</td>
+                <td>{{ evenement.Titre }}</td>
+                <td>{{ evenement.Description }}</td>
+                <td>{{ evenement.Date ? evenement.Date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ evenement.nbParticipants - evenement.getNombreInscrits()}}</td>
+                <td>{{ evenement.isPublic ? 'Yes' : 'No' }}</td>
+                <td>
+                    {% if app.user!=null %}
+                        {% if (app.user.id == evenement.user.id) %}
+                            <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}">edit</a>
+
+                        {% endif %}
+                    {% endif %}
+                    <a href="{{ path('app_evenement_show', {'id': evenement.id}) }}">show</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if app.user!=null %}
+        <a href="{{ path('app_evenement_new') }}">Create new</a>
+
+    {% endif %}
+{% endblock %}

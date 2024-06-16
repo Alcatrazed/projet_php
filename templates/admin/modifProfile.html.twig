@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+    <h1>Modifier Profil</h1>
+
+
+    {{ form_start(modifProfileForm) }}
+    {{ form_row(modifProfileForm.nom) }}
+    {{ form_row(modifProfileForm.prenom) }}
+    {{ form_row(modifProfileForm.email) }}
+
+
+    <button type="submit" class="btn">Modifier</button>
+    {{ form_end(modifProfileForm) }}
+
+    <p><a href="{{ path("app_profile") }}">Retour</a></p>
+{% endblock %}
